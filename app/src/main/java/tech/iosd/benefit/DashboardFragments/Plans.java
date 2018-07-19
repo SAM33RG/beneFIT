@@ -1,6 +1,8 @@
 package tech.iosd.benefit.DashboardFragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,10 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import instamojo.library.InstamojoPay;
+import instamojo.library.InstapayListener;
 import tech.iosd.benefit.Adapters.PlansView;
 import tech.iosd.benefit.R;
 
@@ -32,6 +40,48 @@ public class Plans extends Fragment implements ViewPager.OnPageChangeListener
     Context ctx;
     FragmentManager fm;
     View rootView;
+
+    private void callInstamojoPay(String email, String phone, String amount, String purpose, String buyername) {
+        final Activity activity = getActivity();
+        InstamojoPay instamojoPay = new InstamojoPay();
+        IntentFilter filter = new IntentFilter("ai.devsupport.instamojo");
+        activity.registerReceiver(instamojoPay, filter);
+        JSONObject pay = new JSONObject();
+        try {
+            pay.put("email", email);
+            pay.put("phone", phone);
+            pay.put("purpose", purpose);
+            pay.put("amount", amount);
+            pay.put("name", buyername);
+            pay.put("send_sms", true);
+            pay.put("send_email", true);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        initListener();
+        instamojoPay.start(activity, pay, listener);
+    }
+
+    InstapayListener listener;
+
+
+    private void initListener() {
+        listener = new InstapayListener() {
+            @Override
+            public void onSuccess(String response) {
+                Toast.makeText(getContext(), response, Toast.LENGTH_LONG)
+                        .show();
+            }
+
+            @Override
+            public void onFailure(int code, String reason) {
+                Toast.makeText(getContext(), "Failed: " + reason, Toast.LENGTH_LONG)
+                        .show();
+            }
+        };
+    }
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState)
@@ -61,6 +111,18 @@ public class Plans extends Fragment implements ViewPager.OnPageChangeListener
                 }
             });
         }
+
+        Button nutrition_1 = rootView.findViewById(R.id.nutrition_plan_nut_1);
+        if (nutrition_1 !=null){
+            nutrition_1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callInstamojoPay("sameergangar1@gmail.com","918383090979","0","nutrition 1 month","sameer");
+                    Toast.makeText(getContext(),"btn",Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
 
         return rootView;
     }

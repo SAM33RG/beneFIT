@@ -41,15 +41,15 @@
         android:id="@+id/nutrition_plan_nut_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/oswald"
-        android:text="1 month                           RS900"
-        android:textStyle="bold"
-        android:background="@drawable/button_style_price"
-        android:textColor="@color/colorClear"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
+        android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:layout_gravity="center"/>
+        android:background="@drawable/button_style_price"
+        android:fontFamily="@font/oswald"
+        android:paddingEnd="30dp"
+        android:paddingStart="30dp"
+        android:text="1 month                           RS900"
+        android:textColor="@color/colorClear"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/nutrition_plan_nut_2"

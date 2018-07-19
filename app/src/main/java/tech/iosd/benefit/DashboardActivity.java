@@ -1,6 +1,13 @@
 package tech.iosd.benefit;
 
 import android.app.DatePickerDialog;
+import android.app.Activity;/*
+import instamojo.library.InstapayListener;
+import instamojo.library.InstamojoPay;
+import instamojo.library.Config;*/
+import org.json.JSONObject;
+import org.json.JSONException;
+import android.content.IntentFilter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +27,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import instamojo.library.InstamojoPay;
+import instamojo.library.InstapayListener;
 import tech.iosd.benefit.DashboardFragments.Chat;
 import tech.iosd.benefit.DashboardFragments.ChoosePlan;
 import tech.iosd.benefit.DashboardFragments.Main;
@@ -35,11 +44,14 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     private DatabaseHandler db;
 
 
+    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        // Call the function callInstamojo to start payment here
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ctx = this;
